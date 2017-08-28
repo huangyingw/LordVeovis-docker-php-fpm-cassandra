@@ -1,7 +1,9 @@
 # docker-php-fpm
+
 An alpine-based Docker image to containerize a web PHP application with the support for Cassandra and Kafka.
 
 # Warning
+
 This docker is totally useless in itself. It only serve as a base upon which you can build Docker containers.
 
 # Version

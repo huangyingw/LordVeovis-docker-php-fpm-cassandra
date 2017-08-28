@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ARG VERSION=2.0
+ARG VERSION=2.1
 LABEL version="${VERSION}" \
 	description="php:5.6-alpine with cassandra and kafka support" \
 	maintainer="Sébastien RAULT <sebastien@kveer.fr>"
@@ -108,8 +108,6 @@ RUN deluser build && \
 # configuration
 COPY services /etc/service
 COPY runit-bootstrap /usr/sbin/runit-bootstrap
-COPY nginx-silo.conf /etc/nginx/conf.d/silo.conf
-COPY php-silo.conf /etc/php5/fpm.d/silo.conf
 
 RUN chmod 755 /usr/sbin/runit-bootstrap && \
 	chmod -R 755 /etc/service && \
