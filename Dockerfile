@@ -114,6 +114,3 @@ RUN chmod 755 /usr/sbin/runit-bootstrap && \
 	rm /etc/nginx/conf.d/default.conf && \
 	sed -i -e 's/^;pid/pid/' /etc/php5/php-fpm.conf && \
 	sed -i -e 's!^; \?include_path.*!include_path=".:/usr/share/php5"!' /etc/php5/php.ini
-
-RUN adduser -D -h /app silo && \
-	adduser nginx silo
