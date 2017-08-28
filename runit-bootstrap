@@ -1,0 +1,13 @@
+#!/bin/sh
+export > /etc/envvars
+
+[ ! -f /etc/envvars ] && echo "/etc/envvars does not exists" && exit
+
+TIMEZONE='Europe/Paris'
+
+# setting the timezone
+[ -f "/usr/share/zoneinfo/$TIMEZONE" ] && cp /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+echo "$TIMEZONE" >> /etc/timezone
+sed -i -e "s!^;\?\(date.timezone\).*!\1 = ${TIMEZONE}!" /etc/php5/php.ini
+
+exec runsvdir -P /etc/service

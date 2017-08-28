@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1
+source /etc/envvars
+install -d -o silo -g silo -m 755 /run/php
+
+exec /usr/bin/php-fpm5 --nodaemonize

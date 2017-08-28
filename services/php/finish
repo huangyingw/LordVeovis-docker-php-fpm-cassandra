@@ -1,0 +1,4 @@
+#!/bin/sh
+
+kill `pidof php-fpm5`
+[ -f /run/php/silo.sock ] && rm /run/php/silo.sock
