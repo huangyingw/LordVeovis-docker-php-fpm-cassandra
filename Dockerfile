@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ARG VERSION=2.1
+ARG VERSION=2.2
 LABEL version="${VERSION}" \
 	description="php:5.6-alpine with cassandra and kafka support" \
 	maintainer="Sébastien RAULT <sebastien@kveer.fr>"
@@ -45,6 +45,15 @@ RUN apk update --no-cache && \
 	# so pecl has access to the xml extension which is a module
 	sed -i "$ s|\-n||g" `which pecl` && \
 	pecl update-channels
+
+# installing composer
+RUN apk add libressl php5-json php5-phar php5-xml php5-zlib && \
+	wget -O /tmp/composer-setup.php https://getcomposer.org/installer && \
+	wget -O /tmp/composer-setup.sig https://composer.github.io/installer.sig && \
+	# Make sure we're installing what we think we're installing!
+	php -r "if (hash('SHA384', file_get_contents('/tmp/composer-setup.php')) !== trim(file_get_contents('/tmp/composer-setup.sig'))) { unlink('/tmp/composer-setup.php'); echo 'Invalid installer' . PHP_EOL; exit(1); }" && \
+	php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --snapshot && \
+	rm -f /tmp/composer-setup.*
 
 # compile cassandra
 # the cassandra pecl v1.3.0+ needs cassandra-cpp-driver 1.7+
