@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ARG VERSION=2.2
+ARG VERSION=2.3
 LABEL version="${VERSION}" \
 	description="php:5.6-alpine with cassandra and kafka support" \
 	maintainer="Sébastien RAULT <sebastien@kveer.fr>"
