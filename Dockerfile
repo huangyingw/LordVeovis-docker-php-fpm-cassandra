@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ARG VERSION=2.4
+ARG VERSION=2.5
 LABEL version="${VERSION}" \
 	description="php:5.6-alpine with cassandra and kafka support" \
 	maintainer="Sébastien RAULT <sebastien@kveer.fr>"
@@ -15,6 +15,7 @@ RUN apk update --no-cache && \
 	apk add --no-cache \
 		nginx \
 		nginx-mod-http-headers-more \
+		syslog-ng \
 		dcron \
 		runit \
 		php5-cli \
@@ -130,4 +131,11 @@ RUN chmod 755 /usr/sbin/runit-bootstrap && \
 	rm /etc/nginx/conf.d/default.conf && \
 	sed -i -e 's/^;pid/pid/' /etc/php5/php-fpm.conf && \
 	sed -i -e 's!^; \?include_path.*!include_path=".:/usr/share/php5"!' /etc/php5/php.ini && \
-	sed '/^\[www\]/,$d' /etc/php5/php-fpm.conf
+	# remove the default pool
+	sed '/^\[www\]/,$d' /etc/php5/php-fpm.conf && \
+	# syslog will not access /proc/kmsg inside a docker container
+	sed -i '/kmsg/d' /etc/init.d/syslog-ng-source.std && \
+	# this will allow us to generate the syslog-ng.conf
+	sed -i '1,/^$/c#!/bin/sh' /etc/init.d/syslog-ng && \
+	echo 'update' > /etc/init.d/syslog-ng && \
+	/etc/init.d/syslog-ng
