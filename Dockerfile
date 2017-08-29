@@ -55,6 +55,13 @@ RUN apk add libressl php5-json php5-phar php5-xml php5-zlib && \
 	php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --snapshot && \
 	rm -f /tmp/composer-setup.*
 
+# adding bower & gulp
+RUN apk add --no-cache nodejs-npm && \
+	npm install -g bower && \
+	npm install -g gulp && \
+	npm install -g streamqueue && \
+	npm install -g gulp-less gulp-concat gulp-uglify gulp-minify-css gulp-zip
+
 # compile cassandra
 # the cassandra pecl v1.3.0+ needs cassandra-cpp-driver 1.7+
 RUN apk add --no-cache cassandra-cpp-driver libuv gmp && \
