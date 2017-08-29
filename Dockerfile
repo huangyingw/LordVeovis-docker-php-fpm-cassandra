@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ARG VERSION=2.3
+ARG VERSION=2.4
 LABEL version="${VERSION}" \
 	description="php:5.6-alpine with cassandra and kafka support" \
 	maintainer="Sébastien RAULT <sebastien@kveer.fr>"
@@ -129,4 +129,5 @@ RUN chmod 755 /usr/sbin/runit-bootstrap && \
 	chmod -R 755 /etc/service && \
 	rm /etc/nginx/conf.d/default.conf && \
 	sed -i -e 's/^;pid/pid/' /etc/php5/php-fpm.conf && \
-	sed -i -e 's!^; \?include_path.*!include_path=".:/usr/share/php5"!' /etc/php5/php.ini
+	sed -i -e 's!^; \?include_path.*!include_path=".:/usr/share/php5"!' /etc/php5/php.ini && \
+	sed '/^\[www\]/,$d' /etc/php5/php-fpm.conf
