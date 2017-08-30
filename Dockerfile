@@ -1,6 +1,6 @@
 FROM alpine:3.6
 
-ARG VERSION=2.8
+ARG VERSION=2.9
 LABEL version="${VERSION}" \
 	description="php:5.6-alpine with cassandra and kafka support" \
 	maintainer="Sébastien RAULT <sebastien@kveer.fr>"
@@ -66,7 +66,7 @@ RUN apk add --no-cache nodejs-npm && \
 # compile cassandra
 # the cassandra pecl v1.3.0+ needs cassandra-cpp-driver 1.7+
 RUN apk add --no-cache cassandra-cpp-driver libuv gmp && \
-	apk add --no-cahce cassandra-cpp-driver-dev gmp-dev --virtual .build-sec && \
+	apk add --no-cache cassandra-cpp-driver-dev gmp-dev --virtual .build-sec && \
 	pecl install cassandra-1.3.0 && \
 	apk del .build-sec
 	# disable by default
